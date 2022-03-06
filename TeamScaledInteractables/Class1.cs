@@ -7,18 +7,14 @@ using UnityEngine;
 
 namespace TeamScaledInteractables
 {
-    [BepInPlugin("com.Moffein.TeamScaledInteractables", "Team Scaled Interactables", "1.0.0")]
+    [BepInPlugin("com.Moffein.TeamScaledInteractables", "Team Scaled Interactables", "1.0.1")]
     public class TeamScaledInteractables : BaseUnityPlugin
     {
-        SpawnCard shrineBoss;
-        SpawnCard shrineCombat;
-        SpawnCard voidSeed;
-
         public void Awake()
         {
-            shrineBoss = LegacyResourcesAPI.Load<SpawnCard>("spawncards/interactablespawncard/iscshrineboss");
-            shrineCombat = LegacyResourcesAPI.Load<SpawnCard>("spawncards/interactablespawncard/iscshrinecombat");
-            voidSeed = LegacyResourcesAPI.Load<SpawnCard>("spawncards/interactablespawncard/iscvoidsuppressor");
+            //shrineBoss = LegacyResourcesAPI.Load<SpawnCard>("spawncards/interactablespawncard/iscshrineboss");
+            //shrineCombat = LegacyResourcesAPI.Load<SpawnCard>("spawncards/interactablespawncard/iscshrinecombat");
+            //voidSeed = LegacyResourcesAPI.Load<SpawnCard>("spawncards/interactablespawncard/iscvoidcamp");    //Why isn't this detected?
 
             IL.RoR2.SceneDirector.PopulateScene += (il) =>
             {
@@ -30,7 +26,7 @@ namespace TeamScaledInteractables
                 c.Emit(OpCodes.Ldloc_2);    //DirectorCard
                 c.EmitDelegate<Func<int, DirectorCard, int>>((cost, card) =>
                 {
-                    if (card.spawnCard == shrineBoss || card.spawnCard == shrineCombat || card.spawnCard == voidSeed)
+                    if (card.spawnCard.name == "iscShrineCombat" || card.spawnCard.name == "iscShrineBoss" || card.spawnCard.name == "iscVoidCamp")
                     {
                         cost = (int)(cost * (1f + 0.5f * (Run.instance.participatingPlayerCount - 1)));
                     }
